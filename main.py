@@ -32,16 +32,13 @@ global X
 global Y
 global classifier,classifier1
 global filename
-#global smplImg
+
 
 def upload(): 
     global filename
-    #filename = filedialog.askdirectory(initialdir=".")
     filename = Path("/LungCancer/sample_dataset_images")
     filename =str(filename)
     text.delete('1.0', END)
-    
-    #text.insert(END,filename+" loaded\n");
 
 def preprocess():
     global X
@@ -50,7 +47,6 @@ def preprocess():
     text.delete('1.0', END)
     X = np.load('model/X.txt.npy')
     Y = np.load('model/Y.txt.npy')
-    #text.insert(END,"Total process images from dataset is : "+str(X.shape[0])+"\n")
     img = X[0]
     img = cv2.resize(img,(400,400))
     smplImg = img
@@ -84,7 +80,6 @@ def buildCNN():
         f.close()
         acc = data['accuracy']
         accuracy = acc[9] * 100
-        #text.insert(END,"CNN Lung Cancer Training Accuracy = "+str(accuracy))
     else:
         classifier = Sequential()
         classifier.add(Convolution2D(32, 3, 3, input_shape = (64, 64, 3), activation = 'relu'))
@@ -109,7 +104,6 @@ def buildCNN():
         f.close()
         acc = data['accuracy']
         accuracy = acc[9] * 100
-        #text.insert(END,"CNN Lung Cancer Training Accuracy = "+str(accuracy))
 
 def tumorDetection():
     img = cv2.imread('myimg.png')
@@ -212,20 +206,9 @@ text.config(bg='grey',fg='black',bd=0)
 font1 = ('times', 12, 'bold') 
 
 upload() 
-#uploadButton = Button(main, text="Upload Lung Cancer Dataset", command=upload)
-#uploadButton.place(x=50,y=650)
-#uploadButton.config(font=font1)
 
-#preprocessButton = Button(main, text="Preprocess Dataset", command=preprocess)
-#preprocessButton.place(x=400,y=550)
-#preprocessButton.config(font=font1)
-#preprocessButton.config(bg='darkblue',fg='white',bd=0) 
 preprocess()
 
-#trainButton = Button(main, text="Get Training Accuracy", command=buildCNN)
-#trainButton.place(x=150,y=450)
-#trainButton.config(font=font1) 
-#trainButton.config(bg='darkblue',fg='white',bd=0)
 buildCNN()
 
 showButton = Button(main, text="Show a sample trained image", command=showSampleImage)
